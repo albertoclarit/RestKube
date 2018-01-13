@@ -84,10 +84,45 @@ You can test each pod by
 curl [clusterip]:4567
 ```
 
-2. Expose All the apps for load balancing in the Cluster
+2. Expose All the apps for load balancing in the Cluster (using ClusterIP)
 ```
 curl https://raw.githubusercontent.com/albertoclarit/RestKube/master/kubernetes/testrestservice.yaml \
        | kubectl apply -f -
 ```
 
-3.
+3. Installing an Ingress Controller. Ingress-Nginx does not work on BareMetal Installation
+Instead [traefik](https://docs.traefik.io/) works perfectly
+
+```
+kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-rbac.yaml
+```
+
+4. Traefik can be deployed as either a Deployment or a DaemonSet (it guarantees that one Pod of the DeamonSet is present in every node)
+In our example we will deploy as a Daemonset
+
+```
+kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/examples/k8s/traefik-ds.yaml
+```
+
+5. Traefik can have a WebUI for management and tracking.
+First lets install the Service
+
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+  - port: 80
+    targetPort: 8080
+EOF
+
+```
+
+6. Install an Ingress to our Test Rest App
+
