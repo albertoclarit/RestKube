@@ -68,7 +68,26 @@ kubectl get all -o wide --all-namespaces
 
 # Installing a Test App
 
-1.) Install a Test Rest App 
+1. Install a Test Rest App 
+```
+curl https://raw.githubusercontent.com/albertoclarit/RestKube/master/kubernetes/testrestdeployment.yaml \
+    | kubectl apply -f -
 ```
 
+You can monitor the deployment of your pods in the cluster by opening another terminal
 ```
+kubectl get pods,svc,ing -o wide --all-namespaces
+```
+
+You can test each pod by 
+```
+curl [clusterip]:4567
+```
+
+2. Expose All the apps for load balancing in the Cluster
+```
+curl https://raw.githubusercontent.com/albertoclarit/RestKube/master/kubernetes/testrestservice.yaml \
+       | kubectl apply -f -
+```
+
+3.
