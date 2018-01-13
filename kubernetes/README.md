@@ -12,7 +12,7 @@
  * Swap must be disabled 
  * You can check if you have swap enabled by typing in cat /proc/swaps. If you have a swap file or partition enabled then turn it off with `swapoff -a`. You can make this permanent by commenting out the swap file in /etc/fstab.
 
-3. Execute Installion Procedures of Docker, Kubernetes and Other Tools
+3. Execute Installation Procedures of Docker, Kubernetes and Other Tools
 ```
 curl -sS https://raw.githubusercontent.com/albertoclarit/RestKube/master/kubernetes/settingk8.sh | bash
 ```
@@ -36,4 +36,16 @@ usermod -aG sudo master
   su master
   curl -sS https://raw.githubusercontent.com/albertoclarit/RestKube/master/kubernetes/setupenv.sh | bash
  ```
+ 
+7. By default, a master node are not scheduled for pod deployment. You can allow master to join by 
+```bash
+ kubectl taint nodes --all node-role.kubernetes.io/master-
+```
 
+8. Install a Pod Network/Cluster network based on CNI (Container Network Interface). In this example is Flannel.
+[For more info ] (https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network)
+```
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+9. 
