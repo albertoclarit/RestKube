@@ -124,5 +124,49 @@ EOF
 
 ```
 
+7. Lets create an Ingress entry for this Web UI
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-web-ui
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: webui.192.168.1.149.nip.io
+    http:
+      paths:
+      - backend:
+          serviceName: traefik-web-ui
+          servicePort: 80
+EOF
+```
+
+
 6. Install an Ingress to our Test Rest App
 
+```
+cat <<EOF | kubectl apply -f -
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: trainingdomain
+  annotations:
+      kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: test.192.168.7.210.nip.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: albert-training-service
+          servicePort: 80
+EOF
+```
+
+7. You can now access our App Load-balanced with 10 pods at 
+http://test.192.168.7.210.nip.io
