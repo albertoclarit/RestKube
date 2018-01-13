@@ -1,4 +1,4 @@
-#Installation Guide for Kubernetes 1.9 using KubeAdmn
+#Installation Guide for Kubernetes 1.9 using KubeAdm
 
 1. Make sure VXLan is supported by the OS
  to check you can run
