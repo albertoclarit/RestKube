@@ -1,0 +1,38 @@
+
+-- run an image
+docker run hello-world
+
+-- detached map port 80 to 4000
+docker run -d -p 4000:80 friendlyhello
+
+
+-- view running and exited (-a) container
+docker ps -a
+
+-- remove container sqlserver
+docker rm sqlserver
+
+-- list images
+docker images
+
+-- remove  images id
+docker rmi 7b1c26822d97
+
+-- build container
+docker build -t albertrest  --build-arg JAR_FILE=build/libs/rest-1.0-SNAPSHOT.jar .
+
+docker run -d -p 4000:4567 albertrest
+
+docker tag albertrest albertoclarit/training:1.0.2
+
+docker push albertoclarit/training:1.0.2
+
+docker run -d -p  4000:80 albertoclarit/training:latest
+
+
+-- remove all dangling containers
+docker system prune -a
+
+-- remove all exited containers
+docker ps -a -f status=exited
+docker rm $(docker ps -a -f status=exited -q)

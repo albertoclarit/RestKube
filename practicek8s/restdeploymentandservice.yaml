@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+#apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: albert-training
+  labels:
+    app: nginx
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: inkmanapp
+  template:
+    metadata:
+      labels:
+        app: inkmanapp
+    spec:
+      containers:
+      - name: albertrest
+        image: albertoclarit/rest:1.0.1 #auto lastest
+        ports:
+        - containerPort: 4567
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: albert-training-service
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 4567
+    protocol: TCP
+  selector:
+    app: inkmanapp
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: trainingdomain
+  annotations:
+      ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: 192.168.7.210.nip.io
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: albert-training-service
+          servicePort: 80

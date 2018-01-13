@@ -1,0 +1,14 @@
+
+
+kubectl rolling-update albert-training albert-training-v2 --image=albertoclarit/training:1.0.2
+
+
+
+kubectl set image deployment/albert-training albertrest=albertoclarit/training:1.0.3
+
+
+
+https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#when-should-i-use-liveness-or-readiness-probes
+https://coreos.com/fleet/docs/latest/service-dependencies.html#example-delaying-pod-startup
+
+https://gist.github.com/ziadoz/3e8ab7e944d02fe872c3454d17af31a5
