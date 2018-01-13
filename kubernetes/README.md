@@ -170,3 +170,5 @@ EOF
 
 7. You can now access our App Load-balanced with 10 pods at 
 http://test.192.168.7.210.nip.io
+
+8. Of course you should modify the IP Address :-P
