@@ -48,4 +48,27 @@ usermod -aG sudo master
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
-9. 
+9. At this point in time, Kubernetes is now ready to be joined. You can check the existing
+cluster nodes at 
+```
+kubectl get nodes
+```
+
+To Let other nodes join, execute the commands  in root user from other nodes
+```
+kubeadm join --token d9c7f4.77c2d5a44526aab1 192.168.1.149:6443 --discovery-token-ca-cert-hash sha256:40f55e0c71cec177213f7e3dee397f4d916243346e716fb52dc1c6d36255574c  --ignore-preflight-errors=cri
+```
+
+10. Check if pods and services are ready.
+
+```
+kubectl get all -o wide --all-namespaces
+```
+
+
+# Installing a Test App
+
+1.) Install a Test Rest App 
+```
+
+```
